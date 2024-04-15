@@ -40,9 +40,15 @@ $hotels = [
 
 ];
 
-/* foreach ($hotels as $hotel) {
-    var_dump($hotel['name']);
-} */
+$filterValue = $_GET['filter'];
+
+foreach ($hotels as $hotel) {
+    
+    if ($hotel['parking']) {
+       $filteredHotels[] = $hotel ;
+    }
+}
+//var_dump($filteredHotels);
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +61,15 @@ $hotels = [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
+    <form action="" method="get">
+        <label for="filter">
+            <select name="filter" id="filter">
+                <option value="none" disabled>Select to filter</option>
+                <option value="parking">Parking</option>
+            </select>
+        </label>
+        <button type="submit">Filter</button>
+    </form>
     <div class="container">
         <h1 class="text-center text-light my-3">Our Hotels</h1>
     <table class="table table-light table-striped mt-4 text-center">
@@ -68,7 +83,8 @@ $hotels = [
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($hotels as $hotel) :?>
+            <?php foreach (($filterValue ? $filteredHotels : $hotels) as $hotel) :?>
+                
                 <tr>
                 <td class="fw-medium">
                     <?=$hotel['name']?> 
