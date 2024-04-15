@@ -40,12 +40,31 @@ $hotels = [
 
 ];
 
-$filterValue = $_GET['filter'];
-
+$filteredValue = $_GET['filter'];
+//var_dump($filteredValue);
 foreach ($hotels as $hotel) {
-    
-    if ($hotel['parking']) {
-       $filteredHotels[] = $hotel ;
+    //var_dump($hotel[$park]);
+    switch($filteredValue)
+    {
+        case 'parking';
+            if ($hotel[$filteredValue] == 'parking') {
+                $filteredHotels[] = $hotel ;
+            }
+            
+            break;
+        case 'distance_to_center';
+            if ($hotel[$filteredValue] < 10 ) {
+                $filteredHotels[] = $hotel ;
+            }
+            break;
+        case 'vote';
+        if ($hotel[$filteredValue] > 3 ) {
+            $filteredHotels[] = $hotel ;
+        }
+        break;
+        case 'start';
+                $filteredHotels[] = $hotel ;
+            break;
     }
 }
 //var_dump($filteredHotels);
@@ -61,14 +80,20 @@ foreach ($hotels as $hotel) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="bg-dark">
-    <form action="" method="get">
+    <h5 class="text-light my-3">Select to filter our hotels</h5>
+    <form action="" method="get" class="d-flex align-items-center">
+
         <label for="filter">
-            <select name="filter" id="filter">
-                <option value="none" disabled>Select to filter</option>
+            
+            <select name="filter" id="filter" class="form-select">
+                <option selected>Options...</option>
                 <option value="parking">Parking</option>
+                <option value="distance_to_center">Near the city-center</option>
+                <option value="vote">Most rated</option>
+                <option value="start">Show all</option>
             </select>
         </label>
-        <button type="submit">Filter</button>
+        <button type="submit" class="btn btn-secondary ">Filter</button>
     </form>
     <div class="container">
         <h1 class="text-center text-light my-3">Our Hotels</h1>
@@ -83,7 +108,7 @@ foreach ($hotels as $hotel) {
             </tr>
         </thead>
         <tbody>
-            <?php foreach (($filterValue ? $filteredHotels : $hotels) as $hotel) :?>
+            <?php foreach (($filteredValue ? $filteredHotels : $hotels) as $hotel) :?>
                 
                 <tr>
                 <td class="fw-medium">
